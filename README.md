@@ -19,7 +19,7 @@ Spark 学习项目
 ### 3 配置vm options
 -Dspark.master=local
 
-![-Dspark.master=local](/picture/vmoptions.png)
+![-Dspark.master=local](./picture/vmoptions.png)
 
 ### 4 运行
 
