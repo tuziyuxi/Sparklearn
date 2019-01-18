@@ -1,5 +1,5 @@
 # Spark_Parquest
-
+[官网文档地址](https://spark.apache.org/docs/latest/sql-data-sources-parquet.html)
 ## 一 window上生成parquet文件报权限不足问题
 
 **问题**
