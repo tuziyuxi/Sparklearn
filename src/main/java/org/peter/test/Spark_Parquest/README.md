@@ -27,6 +27,16 @@ java.io.IOException: (null) entry in command string: null chmod 0644 D:\code\die
 
 该问题应该是只有在window环境下才会出现，后续继续验证。
 
+## 二 读写parquet文件
+
+见LoadingDataProgrammatically.java
+
+## 三 生成有分区的parquet文件
+
+代码见UsePartition.java
+
+![](./picture/partition.png)
+
 
 
 
