@@ -37,6 +37,20 @@ java.io.IOException: (null) entry in command string: null chmod 0644 D:\code\die
 
 ![](./picture/partition.png)
 
+## 四 生成HDFS上的Parquet
+
+代码见HDFSParquet.java
+
+```
+peopleDF.write().mode("append").partitionBy("gender","country")
+				.parquet("hdfs://172.16.5.127:8020/petertest/test_people");
+```
+路径一定是HDFS集群上NameNode的ip和端口。
+
+hdfs上文件如下：
+![](./picture/hdfs_parquest.png)
+
+
 
 
 
