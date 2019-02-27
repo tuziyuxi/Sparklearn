@@ -12,3 +12,13 @@ Python不需要强类型Dataset,所有Dataset都是Dataset[Row]。
 
 ![](./picture/python_basic.png)
 
+### 有关数据集操作的更多信息
+
+数据集操作和转换可用于更复杂的计算。
+
+### 高速缓存
+
+Spark还支持将数据集提取到集群范围的内存缓存中。
+
+### 自包含的应用程序
+
