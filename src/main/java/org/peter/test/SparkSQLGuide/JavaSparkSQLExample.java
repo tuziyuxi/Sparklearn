@@ -3,13 +3,40 @@ package org.peter.test.SparkSQLGuide;
 import org.apache.spark.sql.*;
 
 // col("...") is preferable to df.col("...")
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import static org.apache.spark.sql.functions.col;
+import static org.apache.spark.sql.functions.soundex;
 
 /**
  * @author peterpeng
  * @date 2019/2/28
  */
 public class JavaSparkSQLExample {
+
+	public static class Person implements Serializable {
+		private String name;
+		private int age;
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public int getAge() {
+			return age;
+		}
+
+		public void setAge(int age) {
+			this.age = age;
+		}
+	}
 
 	public static void main(String[] args) {
 		//创建SparkSession，Spark程序的入口
@@ -18,8 +45,8 @@ public class JavaSparkSQLExample {
 				.config("spark.some.config.option", "some-value")
 				.getOrCreate();
 
-		runBasicDataFrameExample(spark);
-
+		//runBasicDataFrameExample(spark);
+		runDatasetCreationExample(spark);
 	}
 
 	private static void runBasicDataFrameExample(SparkSession spark) {
@@ -118,4 +145,32 @@ public class JavaSparkSQLExample {
 		}
 
 	}
+
+	private static void runDatasetCreationExample(SparkSession spark) {
+		Person person = new Person();
+		person.setName("Andy");
+		person.setAge(23);
+
+		//为javabean被创建的编码器
+		Encoder<Person> personEncoder = Encoders.bean(Person.class);
+		Dataset<Person> javaBeanDS = spark.createDataset(Collections.singletonList(person), personEncoder);
+		javaBeanDS.show();
+
+		//Encoders类中提供了大多数常见类型的编码器
+		Encoder<Integer> integerEncoder = Encoders.INT();
+		Dataset<Integer> primitiveDS = spark.createDataset(Arrays.asList(1, 2, 3), integerEncoder);
+		Dataset<Integer> transformedDS = primitiveDS.map(value -> value + 1, integerEncoder);
+		transformedDS.show();
+		Integer[] collect = (Integer[]) transformedDS.collect();
+		//2 3 4
+		Arrays.asList(collect).forEach(integer -> System.out.print( integer + " "));
+
+		//通过提供类将DataFrames转化为Dataset
+		String path = "src/main/java/org/peter/test/SparkSQLGuide/people.json";
+		Dataset<Person> peopleDS = spark.read().json(path).as(personEncoder);
+		peopleDS.show();
+	}
+
+
+
 }
