@@ -47,6 +47,8 @@ public class JavaSparkSQLExample {
 
 		//runBasicDataFrameExample(spark);
 		runDatasetCreationExample(spark);
+
+		spark.stop();
 	}
 
 	private static void runBasicDataFrameExample(SparkSession spark) {

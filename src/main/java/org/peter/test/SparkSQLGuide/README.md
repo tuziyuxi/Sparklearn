@@ -10,7 +10,7 @@ DataFrame是一个组织成命名列的Dataset。它在概念上等同于关系�
 在Java中，DataFrame由Dataset<Row>表示。
 
 ## 入门
-
+代码见JavaSparkSQLExample.java
 ### 起点：SparkSession
 Spark中所有功能的入口点都是SparkSession类。要创建基本的SparkSession，只需使用SparkSession.builder():
 
@@ -44,6 +44,51 @@ Datasets与RDDs类似，但是不使用Java序列化，而是使用专用的编�
 2）类型安全的用户定义聚合函数
 
 ## 数据源
+代码见JavaSQLDataSourceExample.java
+
+Spark SQL支持通过DataFrame接口对各种数据源进行操作。DataFrame可以使用关系转换进行操作，也可以用于创建临时视图。
+将DataFrame注册为临时视图允许你对其数据进行SQL查询。
+
+### 通用加载/保存功能
+在最简单的形式中，默认数据源将用于所有操作。即不需要指定数据源类型。
+
+1) 手动指定选项
+可以手动指定将要使用的数据源以及要传递给数据源的任何其他选项。数据源通过其全名指定，
+但内置的来源，你也可以使用自己的短名称（json,parquest,jdbc,orc,libsvm,csv,text）。
+
+2) 直接在文件运行SQL
+直接使用SQL查询文件，而不是使用读取API将文件加载到DataFrame并进行查询。
+
+3）保存模式
+保存操作可以选择使用saveMode,指定如何处理现有数据。
+* "errorifexists" 默认，如果数据已存在，则会引发异常
+* "append" 附加到现有内容
+* "overwrite" 覆盖
+* "ignore" 忽略，不会更改现有数据
+
+4) 保存到持久表
+DataFrames也可以使用该saveAsTable命令将持久表保存到Hive Metastore中。不需要现有的Hive部署，会创建默认的本地Hive Metastore(使用Derby)。
+
+saveAsTable保存的文件如图：
+
+![](./picture/saveastables.png)
+
+5) Bucketing,Sorting和Partitioning
+对于基于文件的数据源，可以对输出进行存储和排序或分区。分段和排序仅适用于持久表：
+
+### Parquet文件
+
+### ORC文件
+
+### JSON文件
+
+### Hive表
+
+### JDBC到其他数据库
+
+### Avro文件
+
+### 故障排除
 
 ## 性能调优
 
