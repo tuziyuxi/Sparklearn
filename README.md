@@ -1,6 +1,8 @@
 Spark 学习项目
 
-![](./picture/spark.png)
+relative/path/to/img.jpg?raw=true "Title"
+
+![](./picture/spark.png?raw=true "test")
 
 
 ## 一 第一个例子：idea运行Spark程序（SimpleApp.java）
@@ -24,7 +26,7 @@ Spark 学习项目
 
 https://github.com/tuziyuxi/Sparklearn/raw/master/picture/vmoptions.png
 
-![-Dspark.master=local](https://github.com/tuziyuxi/Sparklearn/raw/master/picture/vmoptions.png)
+![-Dspark.master=local](https://github.com/tuziyuxi/Sparklearn/master/picture/vmoptions.png)
 
 ### 4 运行
 
