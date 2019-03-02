@@ -113,7 +113,14 @@ Spark SQL还支持读取和写入存储在Apache Hive中的数据。
 ### 故障排除
 
 ## 性能调优
+可以通过在内存中缓存数据或打开一些实验选项来提高性能。
 
+1） 在内存中缓存数据
+可以通过调用spark.catalog.cacheTable("tableName)或使用内存中的列式格式来缓存表dataFrame.cache().
+
+2） 其他配置选项
+
+3） SQL查询的广播提示
 
 
 ## 分布式SQL引擎
