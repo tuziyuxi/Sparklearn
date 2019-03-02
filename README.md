@@ -1,9 +1,6 @@
 Spark 学习项目
 
-relative/path/to/img.jpg?raw=true "Title"
-
-![](./picture/spark.png?raw=true "test")
-
+![](./picture/spark.png)
 
 ## 一 第一个例子：idea运行Spark程序（SimpleApp.java）
 
