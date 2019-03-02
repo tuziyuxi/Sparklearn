@@ -2,6 +2,8 @@ Spark 学习项目
 
 ![](./picture/spark.png)
 
+DataFrame替代RDD;Structured Streaming替代Spark Streaming。
+
 ## 一 第一个例子：idea运行Spark程序（SimpleApp.java）
 
 [查看Spark官网入门例子](https://spark.apache.org/docs/latest/quick-start.html)
