@@ -1,5 +1,5 @@
 Spark 学习项目
-![1](https://github.com/tuziyuxi/Sparklearn/blob/master/picture/spark.png)
+![1](https://github.com/tuziyuxi/Sparklearn/raw/master/picture/spark.png)
 
 
 ## 一 第一个例子：idea运行Spark程序（SimpleApp.java）
@@ -20,8 +20,8 @@ Spark 学习项目
 
 ### 3 配置vm options
 -Dspark.master=local
-https://github.com/tuziyuxi/Sparklearn/blob/master/picture/vmoptions.png
-![-Dspark.master=local](https://github.com/tuziyuxi/Sparklearn/blob/master/picture/vmoptions.png)
+https://github.com/tuziyuxi/Sparklearn/raw/master/picture/vmoptions.png
+![-Dspark.master=local](https://github.com/tuziyuxi/Sparklearn/raw/master/picture/vmoptions.png)
 
 ### 4 运行
 
