@@ -1,6 +1,6 @@
 Spark 学习项目
 
-![1](picture/spark.png)
+![](./picture/spark.png)
 
 
 ## 一 第一个例子：idea运行Spark程序（SimpleApp.java）
