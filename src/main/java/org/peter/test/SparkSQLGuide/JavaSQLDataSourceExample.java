@@ -1,23 +1,117 @@
 package org.peter.test.SparkSQLGuide;
 
 import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
 
 /**
  * @author peterpeng
  * @date 2019/3/1
  */
 public class JavaSQLDataSourceExample {
+
 	public static void main(String[] args) {
 		SparkSession spark = SparkSession.builder()
 				.appName("Java Spark SQL data sources example")
 				.config("spark.some.config.option", "some-value")
 				.getOrCreate();
 
-		runBasicDataSourceExample(spark);
-
+		//runBasicDataSourceExample(spark);
+		//runBasicParquetExample(spark);
+		//runJsonDatasetExample(spark);
+		runJdbcDatasetExample(spark);
 		spark.stop();
+	}
+
+	private static void runJdbcDatasetExample(SparkSession spark) {
+		//可以通过load/save或jdbc方法实现JDBC加载和保存
+
+		Dataset<Row> jdbdDF = spark.read()
+				.format("jdbc")
+				.option("url", "jdbc:postgresql:dbserver")
+				.option("dbtable", "schema.tablename")
+				.option("user", "username")
+				.option("password", "password")
+				.load();
+
+		jdbdDF.write()
+				.format("jdbc")
+				.option("url", "jdbc:postgresql:dbserver")
+				.option("dbtable", "schema.tablename")
+				.option("user", "username")
+				.option("password", "password")
+				.save();
+
+		Properties connectionProperties = new Properties();
+		connectionProperties.put("user", "username");
+		connectionProperties.put("password", "password");
+		Dataset<Row> jdbcDF2 = spark.read().jdbc("url", "dbtable", connectionProperties);
+
+		jdbcDF2.write()
+				.jdbc("jdbc:postgresql:dbserver", "schema.tablename", connectionProperties);
+
+
+	}
+
+	private static void runJsonDatasetExample(SparkSession spark) {
+		String path = "src/main/resources/people.json";
+		Dataset<Row> peopleDF = spark.read().json(path);
+		/**
+		 root
+		 |-- age: long (nullable = true)
+		 |-- name: string (nullable = true)
+		 */
+		peopleDF.printSchema();
+
+		peopleDF.createOrReplaceTempView("people" );
+		Dataset<Row> namesDF = spark.sql("SELECT name FROM people WHERE age BETWEEN 13 AND 19");
+		/**
+		 +------+
+		 |  name|
+		 +------+
+		 |Justin|
+		 +------+
+		 */
+		namesDF.show();
+
+		List<String> jsonData = Arrays.asList(
+				"{\"name\":\"Yin\",\"address\":{\"city\":\"Columbus\",\"state\":\"Ohio\"}}");
+		Dataset<String> anotherPeopleDataset  = spark.createDataset(jsonData, Encoders.STRING());
+		Dataset<Row> anotherPeopleDF = spark.read().json(anotherPeopleDataset);
+		/**
+		 +----------------+----+
+		 |         address|name|
+		 +----------------+----+
+		 |[Columbus, Ohio]| Yin|
+		 +----------------+----+
+		 */
+		anotherPeopleDF.show();
+
+	}
+
+	private static void runBasicParquetExample(SparkSession spark) {
+		Dataset<Row> peopleDF = spark.read().json("src/main/resources/people.json");
+		peopleDF.write().parquet("people.parquet");
+
+		Dataset<Row> parquetFileDF = spark.read().parquet("people.parquet");
+		parquetFileDF.createOrReplaceTempView("parquetFile");
+		Dataset<Row> namesDF = spark.sql("SELECT name FROM parquetFile WHERE age BETWEEN 13 AND 19");
+		Dataset<String> namesDS = namesDF.map(row -> "Name:" + row.getString(0), Encoders.STRING());
+		/**
+		 +----+-------+
+		 | age|   name|
+		 +----+-------+
+		 |null|Michael|
+		 |  30|   Andy|
+		 |  19| Justin|
+		 +----+-------+
+		 */
+		namesDS.show();
 	}
 
 	private static void runBasicDataSourceExample(SparkSession spark) {
