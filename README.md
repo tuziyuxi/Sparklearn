@@ -1,7 +1,8 @@
 Spark 学习项目
 
-![1](https://github.com/tuziyuxi/Sparklearn/blob/master/picture/spark.png)
+![](./picture/spark.png)
 
+DataFrame替代RDD;Structured Streaming替代Spark Streaming。
 
 ## 一 第一个例子：idea运行Spark程序（SimpleApp.java）
 
@@ -22,9 +23,7 @@ Spark 学习项目
 ### 3 配置vm options
 -Dspark.master=local
 
-https://github.com/tuziyuxi/Sparklearn/raw/master/picture/vmoptions.png
-
-![-Dspark.master=local](https://github.com/tuziyuxi/Sparklearn/raw/master/picture/vmoptions.png)
+![-Dspark.master=local](picture/vmoptions.png)
 
 ### 4 运行
 
